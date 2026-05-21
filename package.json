@@ -9,12 +9,18 @@
 		"build": "bun build src/server.ts --outdir dist"
 	},
 	"devDependencies": {
-		"@types/bun": "latest"
+		"@types/bun": "latest",
+		"@types/cookie-parser": "^1.4.10",
+		"@types/cors": "^2.8.19",
+		"@types/express": "^5.0.6",
+		"@types/node": "^25.9.1"
 	},
 	"peerDependencies": {
 		"typescript": "^5"
 	},
 	"dependencies": {
+		"cookie-parser": "^1.4.7",
+		"cors": "^2.8.6",
 		"express": "^5.2.1"
 	}
 }
