@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
   res.status(200).json(
     {
       message: "Welcome to DevPulse API",
-      timestamp: Date.now(),
+      timestamp: new Date().toUTCString()
     }
   );
 });
