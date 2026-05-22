@@ -3,6 +3,7 @@ import CookieParser from 'cookie-parser';
 import logger from './middleware/logger';
 import cors from 'cors';
 import globalErrorHandler from './middleware/globalErrorHandler';
+import authRoutes from './modules/auth/auth.routes';
 
 const app: Application = express();
 
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
   );
 });
 
+app.use("/api/auth", authRoutes);
 
 app.use(globalErrorHandler);
 
