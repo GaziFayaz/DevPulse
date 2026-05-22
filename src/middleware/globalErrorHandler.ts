@@ -12,6 +12,7 @@ const globalErrorHandler = (
     res.status(err.statusCode).json({
       success: false,
       message: err.message,
+      errors: err.stack,
     });
     return;
   }
@@ -21,6 +22,7 @@ const globalErrorHandler = (
   res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     success: false,
     message: "Internal server error",
+    errors: err.stack,
   });
 };
 
