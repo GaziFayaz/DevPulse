@@ -30,9 +30,9 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
 
 export const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const sort = (req.query.sort as string) || "newest";
-    const type = req.query.type as string | undefined;
-    const status = req.query.status as string | undefined;
+    const sort = String(req.query.sort || "newest");
+    const type = req.query.type ? String(req.query.type) : undefined;
+    const status = req.query.status ? String(req.query.status) : undefined;
 
     const issues = await issuesService.getAll(sort, type, status);
     successResponse(res, issues);
@@ -43,7 +43,7 @@ export const getAll = async (req: Request, res: Response, next: NextFunction) =>
 
 export const getById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = parseInt(req.params.id!, 10);
+    const id = parseInt(String(req.params.id), 10);
     const issue = await issuesService.getById(id);
     successResponse(res, issue);
   } catch (error) {
@@ -53,7 +53,7 @@ export const getById = async (req: Request, res: Response, next: NextFunction) =
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = parseInt(req.params.id!, 10);
+    const id = parseInt(String(req.params.id), 10);
     const { title, description, type } = req.body;
 
     if (!title && !description && !type) {
@@ -69,7 +69,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
 export const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = parseInt(req.params.id!, 10);
+    const id = parseInt(String(req.params.id), 10);
     await issuesService.remove(id);
     successResponse(res, null, "Issue deleted successfully");
   } catch (error) {
