@@ -12,11 +12,7 @@ app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000"
-//   })
-// )
+app.use(cors())
 
 app.get("/", (req, res) => {
   res.status(200).json(
