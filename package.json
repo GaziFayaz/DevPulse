@@ -4,9 +4,9 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"dev": "tsx watch src/server.ts",
-		"start": "tsx src/server.ts",
-		"build": "tsc"
+		"dev": "bun --watch ./src/server.ts",
+		"start": "bun src/server.ts",
+		"build": "bun build src/server.ts --outdir dist"
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^6.0.0",
@@ -16,8 +16,7 @@
 		"@types/express": "^5.0.6",
 		"@types/jsonwebtoken": "^9.0.10",
 		"@types/node": "^25.9.1",
-		"@types/pg": "^8.20.0",
-		"tsx": "^4.22.3"
+		"@types/pg": "^8.20.0"
 	},
 	"peerDependencies": {
 		"typescript": "^5"
