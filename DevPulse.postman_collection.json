@@ -1,0 +1,271 @@
+{
+  "info": {
+    "name": "DevPulse API",
+    "description": "Internal Tech Issue & Feature Tracker API\n\nBase URL: {{base_url}}",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "issue_id",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    pm.test('User registered successfully', () => {",
+                  "        pm.response.to.have.status(201);",
+                  "        const json = pm.response.json();",
+                  "        pm.expect(json.success).to.be.true;",
+                  "        pm.expect(json.data).to.not.have.property('password');",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@devpulse.com\",\n  \"password\": \"securePassword123\",\n  \"role\": \"contributor\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const json = pm.response.json();",
+                  "    pm.collectionVariables.set('token', json.data.token);",
+                  "    pm.test('Token saved to collection variables', () => {",
+                  "        pm.expect(json.data.token).to.not.be.empty;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@devpulse.com\",\n  \"password\": \"securePassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Issues",
+      "item": [
+        {
+          "name": "Create Issue",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const json = pm.response.json();",
+                  "    pm.collectionVariables.set('issue_id', json.data.id);",
+                  "    pm.test('Issue created, ID saved', () => {",
+                  "        pm.expect(json.data.id).to.exist;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Database connection timeout under load\",\n  \"description\": \"Pool exhausts after 50+ concurrent queries, causing 500 errors\",\n  \"type\": \"bug\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/issues",
+              "host": ["{{base_url}}"],
+              "path": ["api", "issues"]
+            }
+          }
+        },
+        {
+          "name": "Get All Issues",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/issues?sort=newest",
+              "host": ["{{base_url}}"],
+              "path": ["api", "issues"],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "newest"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get All Issues (filtered by type)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/issues?sort=newest&type=bug",
+              "host": ["{{base_url}}"],
+              "path": ["api", "issues"],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "newest"
+                },
+                {
+                  "key": "type",
+                  "value": "bug"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get All Issues (filtered by status)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/issues?sort=newest&status=open",
+              "host": ["{{base_url}}"],
+              "path": ["api", "issues"],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "newest"
+                },
+                {
+                  "key": "status",
+                  "value": "open"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Issue",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/issues/{{issue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "issues", "{{issue_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Issue",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated: Database pool exhaustion fix needed\",\n  \"description\": \"Updated description with reproduction steps...\",\n  \"type\": \"bug\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/issues/{{issue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "issues", "{{issue_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Issue",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/issues/{{issue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "issues", "{{issue_id}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

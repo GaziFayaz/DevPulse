@@ -4,6 +4,13 @@
 
 **Live URL:** [https://dev-pulse-nine-navy.vercel.app](https://dev-pulse-nine-navy.vercel.app)
 
+Example users for testing:
+| Name | Email | Role | Password |
+|---|---|---|---|
+| Alice Wonder | `alice@devpulse.com` | contributor | `password123` |
+| Bob Builder | `bob@devpulse.com` | contributor | `password123` |
+| Carol Maintainer | `carol@devpulse.com` | maintainer | `password123` |
+
 ---
 
 ## Features
