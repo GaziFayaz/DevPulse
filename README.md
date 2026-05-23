@@ -70,7 +70,13 @@ Tables are created automatically on first run. To seed sample data:
 bun run seed
 ```
 
-This creates 3 users (password: `password123`) and 8 sample issues.
+This creates 3 users and 8 sample issues:
+
+| Name | Email | Role | Password |
+|---|---|---|---|
+| Alice Wonder | `alice@devpulse.com` | contributor | `password123` |
+| Bob Builder | `bob@devpulse.com` | contributor | `password123` |
+| Carol Maintainer | `carol@devpulse.com` | maintainer | `password123` |
 
 ### Run
 
